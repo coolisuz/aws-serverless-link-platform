@@ -67,7 +67,7 @@ exports.handler = async (event) => {
       body: JSON.stringify({
         shortCode: shortCode,
         originalUrl: url,
-        shortUrl: `https://short.url/${shortCode}`, // TODO: replace this with actual domain
+        shortUrl: `https://short.url/${shortCode}`,
         createdAt: item.createdAt
       })
     };

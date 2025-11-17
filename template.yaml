@@ -41,6 +41,23 @@ Resources:
             Path: /shorten
             Method: POST
 
+  # Lambda function to redirect short URLs
+  RedirectURLFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: url-shortener-redirect
+      CodeUri: src/redirect-url/
+      Handler: index.handler
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref URLsTable
+      Events:
+        RedirectURL:
+          Type: Api
+          Properties:
+            Path: /{shortCode}
+            Method: GET
+
 Outputs:
   ApiEndpoint:
     Description: "API Gateway endpoint URL"
