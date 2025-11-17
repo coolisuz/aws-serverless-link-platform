@@ -1,0 +1,17 @@
+.aws-sam/
+samconfig.toml
+node_modules/
+package-lock.json
+*.log
+npm-debug.log*
+.env
+.env.local
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+.aws/
+credentials
+config

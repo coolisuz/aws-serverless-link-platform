@@ -1,0 +1,51 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: URL Shortener Serverless Application
+
+Globals:
+  Function:
+    Timeout: 10
+    Runtime: nodejs20.x
+    Environment:
+      Variables:
+        URLS_TABLE_NAME: !Ref URLsTable
+
+Resources:
+  # DynamoDB Table for storing URL mappings
+  URLsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: url-shortener-urls
+      AttributeDefinitions:
+        - AttributeName: shortCode
+          AttributeType: S
+      KeySchema:
+        - AttributeName: shortCode
+          KeyType: HASH
+      BillingMode: PAY_PER_REQUEST
+
+  # Lambda function to create short URLs
+  CreateShortURLFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: url-shortener-create
+      CodeUri: src/create-url/
+      Handler: index.handler
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref URLsTable
+      Events:
+        CreateURL:
+          Type: Api
+          Properties:
+            Path: /shorten
+            Method: POST
+
+Outputs:
+  ApiEndpoint:
+    Description: "API Gateway endpoint URL"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
+
+  URLsTableName:
+    Description: "DynamoDB table name"
+    Value: !Ref URLsTable

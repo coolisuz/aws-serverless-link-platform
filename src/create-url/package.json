@@ -1,0 +1,10 @@
+{
+  "name": "create-url-function",
+  "version": "1.0.0",
+  "description": "Lambda function to create shortened URLs",
+  "main": "index.js",
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.682.0",
+    "@aws-sdk/lib-dynamodb": "^3.682.0"
+  }
+}
