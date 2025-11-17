@@ -67,6 +67,23 @@ Resources:
             Path: /{shortCode}
             Method: GET
 
+  # Lambda function to get URL analytics
+  AnalyticsURLFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Sub 'url-shortener-analytics-${Environment}'
+      CodeUri: src/analytics-url/
+      Handler: index.handler
+      Policies:
+        - DynamoDBReadPolicy:
+            TableName: !Ref URLsTable
+      Events:
+        GetAnalytics:
+          Type: Api
+          Properties:
+            Path: /analytics/{shortCode}
+            Method: GET
+
 Outputs:
   Environment:
     Description: "Deployment environment"
