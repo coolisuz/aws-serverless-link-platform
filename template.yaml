@@ -84,6 +84,23 @@ Resources:
             Path: /analytics/{shortCode}
             Method: GET
 
+  # Lambda function to list all URLs
+  ListURLsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Sub 'url-shortener-list-${Environment}'
+      CodeUri: src/list-urls/
+      Handler: index.handler
+      Policies:
+        - DynamoDBReadPolicy:
+            TableName: !Ref URLsTable
+      Events:
+        ListURLs:
+          Type: Api
+          Properties:
+            Path: /urls
+            Method: GET
+
 Outputs:
   Environment:
     Description: "Deployment environment"
