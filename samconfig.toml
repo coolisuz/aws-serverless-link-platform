@@ -1,0 +1,32 @@
+version = 0.1
+
+[default.deploy.parameters]
+stack_name = "url-shortener-dev"
+resolve_s3 = true
+s3_prefix = "url-shortener-dev"
+region = "us-east-1"
+confirm_changeset = true
+capabilities = "CAPABILITY_IAM"
+parameter_overrides = "Environment=dev"
+image_repositories = []
+
+[dev.deploy.parameters]
+stack_name = "url-shortener-dev"
+resolve_s3 = true
+s3_prefix = "url-shortener-dev"
+region = "us-east-1"
+confirm_changeset = true
+capabilities = "CAPABILITY_IAM"
+parameter_overrides = "Environment=dev"
+
+[prod.deploy.parameters]
+stack_name = "url-shortener-prod"
+resolve_s3 = true
+s3_prefix = "url-shortener-prod"
+region = "us-east-1"
+confirm_changeset = true
+capabilities = "CAPABILITY_IAM"
+parameter_overrides = "Environment=prod"
+
+[default.global.parameters]
+region = "us-east-1"
