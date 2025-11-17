@@ -2,6 +2,15 @@ AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: URL Shortener Serverless Application
 
+Parameters:
+  Environment:
+    Type: String
+    Default: dev
+    AllowedValues:
+      - dev
+      - prod
+    Description: Environment name (dev or prod)
+
 Globals:
   Function:
     Timeout: 10
@@ -15,7 +24,7 @@ Resources:
   URLsTable:
     Type: AWS::DynamoDB::Table
     Properties:
-      TableName: url-shortener-urls
+      TableName: !Sub 'url-shortener-urls-${Environment}'
       AttributeDefinitions:
         - AttributeName: shortCode
           AttributeType: S
@@ -28,7 +37,7 @@ Resources:
   CreateShortURLFunction:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: url-shortener-create
+      FunctionName: !Sub 'url-shortener-create-${Environment}'
       CodeUri: src/create-url/
       Handler: index.handler
       Policies:
@@ -45,7 +54,7 @@ Resources:
   RedirectURLFunction:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: url-shortener-redirect
+      FunctionName: !Sub 'url-shortener-redirect-${Environment}'
       CodeUri: src/redirect-url/
       Handler: index.handler
       Policies:
@@ -59,6 +68,10 @@ Resources:
             Method: GET
 
 Outputs:
+  Environment:
+    Description: "Deployment environment"
+    Value: !Ref Environment
+
   ApiEndpoint:
     Description: "API Gateway endpoint URL"
     Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
