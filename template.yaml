@@ -33,7 +33,7 @@ Resources:
           KeyType: HASH
       BillingMode: PAY_PER_REQUEST
 
-  # Lambda function to create short URLs
+  # Lambda function to create short URL
   CreateShortURLFunction:
     Type: AWS::Serverless::Function
     Properties:
